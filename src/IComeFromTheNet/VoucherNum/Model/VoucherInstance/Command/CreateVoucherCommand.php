@@ -1,7 +1,7 @@
 <?php 
 namespace IComeFromTheNet\VoucherNum\Model\VoucherInstance\Command;
 
-use IComeFromTheNet\VoucherNum\Model\VoucherInstance;
+use IComeFromTheNet\VoucherNum\Model\VoucherInstance\VoucherInstance;
 use IComeFromTheNet\VoucherNum\Bus\Middleware\ValidationInterface;
 
 /**

@@ -1,5 +1,5 @@
 <?php 
-namespace IComeFromTheNet\VoucherNum\Model\VoucherRule\Handler;
+namespace IComeFromTheNet\VoucherNum\Model\VoucherGenRule\Handler;
 
 use DateTime;
 use DBALGateway\Exception as DBALGatewayException;

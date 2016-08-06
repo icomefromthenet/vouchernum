@@ -13,6 +13,7 @@ class ExpireVoucherTypeCommand extends VoucherType implements ValidationInterfac
         $aRules = parent::getRules();
         
         $aRules['required'][] = ['voucherTypeId'];
+        $aRules['required'][] = ['voucherEnabledFrom'];
         
         return $aRules;
     }

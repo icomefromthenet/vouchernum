@@ -4,7 +4,7 @@ namespace IComeFromTheNet\VoucherNum\Model\VoucherType\Handler;
 use DateTime;
 use DBALGateway\Exception as DBALGatewayException;
 use IComeFromTheNet\VoucherNum\VoucherException;
-use IComeFromTheNet\VoucherNum\Model\VoucherType\Command\ExpireVoucherCommand;
+use IComeFromTheNet\VoucherNum\Model\VoucherType\Command\ExpireVoucherTypeCommand;
 use IComeFromTheNet\VoucherNum\Model\VoucherType\VoucherTypeGateway;
 
 /**
@@ -15,7 +15,7 @@ use IComeFromTheNet\VoucherNum\Model\VoucherType\VoucherTypeGateway;
  * @author Lewis Dyer <getintouch@icomefromthenet.com>
  * @since 1.0
  */ 
-class ExpireVoucherHandler 
+class ExpireVoucherTypeHandler 
 {
     
     /**
@@ -48,11 +48,11 @@ class ExpireVoucherHandler
     /**
      * Create a Voucher Type
      * 
-     * @param ExpireVoucherCommand  $oVoucherType  The Voucher Group Entity
+     * @param ExpireVoucherTypeCommand  $oVoucherType  The Voucher Group Entity
      * @throws VoucherException if the database query fails or entity has id assigned.
      * @returns boolean true if the insert operation was successful
      */ 
-    public function handle(ExpireVoucherCommand $oVoucherType)
+    public function handle(ExpireVoucherTypeCommand $oVoucherType)
     {
         $oGateway        = $this->oGateway;
         $oVoucherBuilder = $oGateway->getEntityBuilder();

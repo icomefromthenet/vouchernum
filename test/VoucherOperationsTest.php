@@ -77,156 +77,163 @@ class VoucherOperationsTest extends VoucherTestAbstract
     
     
    
-    //  /**
-    //  * @expectedException        IComeFromTheNet\VoucherNum\VoucherException
-    //  * @expectedExceptionMessage Unable to create new voucher rule the Entity has a database id assigned already
-    //  */
-    // public function testVoucherRule()
-    // {
+     public function testVoucherRule()
+     {
         
-    //     $oContainer = $this->getContainer();
-    //     $aOperations = $oContainer->getVoucherRuleOperations();
+        $oContainer = $this->getContainer();
+        $oCommandBus = $this->getContainer()->getCommandBus();
         
-    //     $oOperation = $aOperations['create'];
+        $oRuleCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherGenRule\Command\CreateVoucherRuleCommand();
+        
+        $oRuleCommand->setVoucherRuleName('Rule A');
+        $oRuleCommand->setSlugRuleName('rule_a');
+        $oRuleCommand->setVoucherPaddingCharacter('a');
+        $oRuleCommand->setVoucherSuffix('_rule');
+        $oRuleCommand->setVoucherPrefix('my_');
+        $oRuleCommand->setVoucherLength(5);
+        $oRuleCommand->setSequenceStrategyName('SEQUENCE');
+        
+        $oCommandBus->handle($oRuleCommand);    
+        
+        $iRuleId = $oRuleCommand->getVoucherGenRuleId();
+        
+        $this->assertNotEmpty($iRuleId);
+        
+          // test rule Update
+        
     
-    //     # assert correct operation was returned
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\RuleCreate',$oOperation);
-     
+        $oRuleCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherGenRule\Command\ReviseVoucherRuleCommand();
+       
         
-    //     $oRule = new VoucherGenRule();
+         $oRuleCommand->setVoucherRuleName('Rule A');
+         $oRuleCommand->setSlugRuleName('rule_a');
+         $oRuleCommand->setVoucherPaddingCharacter('a');
+         $oRuleCommand->setVoucherSuffix('_rule');
+         $oRuleCommand->setVoucherPrefix('my_');
+         $oRuleCommand->setVoucherLength(5);
+         $oRuleCommand->setSequenceStrategyName('SEQUENCE');
+         $oRuleCommand->setVoucherGenRuleId($iRuleId);      
         
-    //     $oRule->setVoucherRuleName('Rule A');
-    //     $oRule->setSlugRuleName('rule_a');
-    //     $oRule->setVoucherPaddingCharacter('a');
-    //     $oRule->setVoucherSuffix('_rule');
-    //     $oRule->setVoucherPrefix('my_');
-    //     $oRule->setVoucherLength(5);
-    //     $oRule->setSequenceStrategyName('SEQUENCE');
         
-    //     $oOperation->execute($oRule);
+         $oCommandBus->handle($oRuleCommand);    
         
-    //     $this->assertNotEmpty($oRule->getVoucherGenRuleId());
+         // no exception thrown
+         $this->assertTrue(true);
+   
         
-    //     // test rule Update
         
-    //     $oOperation = $aOperations['update'];
-    
-    //     # assert correct operation was returned
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\RuleRevise',$oOperation);
-        
-    //     $oRule->setVoucherRuleName('Rule A');
-    //     $oRule->setSlugRuleName('rule_a');
-    //     $oRule->setVoucherPaddingCharacter('a');
-    //     $oRule->setVoucherSuffix('_rule');
-    //     $oRule->setVoucherPrefix('my_');
-    //     $oRule->setVoucherLength(5);
-    //     $oRule->setSequenceStrategyName('SEQUENCE');
-     
-        
-    //     $oOperation->execute($oRule);
-        
-    //     $this->assertNotEmpty($oRule->getVoucherGenRuleId());
-        
-    //     // test can create exsting entity
-        
-    //     $oOperation = $aOperations['create'];
-         
-    //     $oOperation->execute($oRule);
-        
-    // }
+    }
     
    
     
-    // public function testVoucherType()
-    // {
-    //     $oContainer = $this->getContainer();
-    //     $aOperations = $oContainer->getVoucherTypeOperations();
+     public function testVoucherType()
+     {
+        $oContainer = $this->getContainer();
+        $oCommandBus = $this->getContainer()->getCommandBus();
+           
+        $iVoucherTypeId = 1;
+        $sName          ='test voucher';
+        $sSlugName      ='test_voucher';
+        $sDescription   = 'A sucessful test voucher';
+        $oEnableFrom    = new DateTime();
+        $oEnableTo      = new DateTime('NOW + 5 days');
+        $iVoucherGroupId = 1;
+        $iVoucherGenRuleId =1;
         
-    //     $oOperation = $aOperations['create'];
-    
-    //     # assert correct operation was returned
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\TypeCreate',$oOperation);
+        // Test New
         
-    //     $oType = new VoucherType();  
+        $oCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherType\Command\NewVoucherTypeCommand();
+     
         
-    //      $iVoucherTypeId = 1;
-    //     $sName          ='test voucher';
-    //     $sSlugName      ='test_voucher';
-    //     $sDescription   = 'A sucessful test voucher';
-    //     $oEnableFrom    = new DateTime();
-    //     $oEnableTo      = new DateTime('NOW + 5 days');
-    //     $iVoucherGroupId = 1;
-    //     $iVoucherGenRuleId =1;
+        $oCommand->setSlug($sSlugName);
+        $oCommand->setName($sName);
+        $oCommand->setDescription($sDescription);
+        $oCommand->setEnabledFrom($oEnableFrom);
+        $oCommand->setVoucherGroupId($iVoucherGroupId);
+        $oCommand->setVoucherGenruleId($iVoucherGenRuleId);
         
+        $oCommandBus->handle($oCommand);
         
-    //     $oType->setSlug($sSlugName);
-    //     $oType->setName($sName);
-    //     $oType->setDescription($sDescription);
-    //     $oType->setEnabledFrom($oEnableFrom);
-    //     $oType->setVoucherGroupId($iVoucherGroupId);
-    //     $oType->setVoucherGenruleId($iVoucherGenRuleId);
-        
-    //     $oOperation->execute($oType);
-        
-    //     $this->assertNotEmpty($oType->getVoucherTypeId());
+        $iNewVoucherTypeId = $oCommand->getVoucherTypeId();
+       
+        $this->assertNotEmpty($iNewVoucherTypeId);
      
      
-    //     // test update
+        // test update
      
-    //     $aOperations = $oContainer->getVoucherTypeOperations();
-        
-    //     $oOperation = $aOperations['update'];
-    
-    //     # assert correct operation was returned
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\TypeRevise',$oOperation);
-     
-    //     $oType->setDescription('an updated description');
-        
-    //     $this->assertTrue($oOperation->execute($oType));
-     
-    //   // test delete no last date given
-      
-    //     $oOperation = $aOperations['delete'];
-    //     $oType->setEnabledTo(null);
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\TypeExpire',$oOperation);
-     
-    //     $bResult = $oOperation->execute($oType);
-    //     //var_dump($oContainer['TestQueryLog']->lastQuery());
-        
-    //     $this->assertTrue($bResult);
-    //     $this->assertEquals($oContainer->getNow(),$oType->getEnabledTo());
-        
-    //     // Test delete if last date give
-    //     $oOperation = $aOperations['delete'];
-    //     $oType->setEnabledTo($oEnableTo);
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\TypeExpire',$oOperation);
-     
-    //     $bResult = $oOperation->execute($oType);
-    //     $this->assertTrue($bResult);
-    //     $this->assertEquals($oEnableTo,$oType->getEnabledTo());
-
-    // }
-    
-    
-    // public function testVoucherInstanceCreate()
-    // {
-    //     $oContainer = $this->getContainer();
-    //     $aOperations = $oContainer->getVoucherInstanceOperations();
-        
-    //     $oOperation = $aOperations['create'];
-    
-    //     # assert correct operation was returned
-    //     $this->assertInstanceOf('\IComeFromTheNet\VoucherNum\Operations\VoucherCreate',$oOperation);
-        
-    //     $oVoucher = new VoucherInstance();
-        
-    //     $oVoucher->setVoucherTypeId(1);
-    //     $oVoucher->setVoucherCode('aaa_01_01');
+        $oCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherType\Command\ReviseVoucherTypeCommand();
          
-    //     $this->assertTrue($oOperation->execute($oVoucher));
+        $oCommand->setSlug($sSlugName);
+        $oCommand->setName($sName);
+        $oCommand->setDescription($sDescription);
+        $oCommand->setEnabledFrom($oEnableFrom);
+        $oCommand->setVoucherGroupId($iVoucherGroupId);
+        $oCommand->setVoucherGenruleId($iVoucherGenRuleId);
+        $oCommand->setDescription('an updated description');
+        $oCommand->setVoucherTypeId($iNewVoucherTypeId);
+     
+        $oCommandBus->handle($oCommand);
         
-    //     $this->assertNotEmpty($oVoucher->getVoucherInstanceId());
-    // }
+        $this->assertTrue(true);
+     
+     
+        // test delete no last date given
+      
+        $oCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherType\Command\ExpireVoucherTypeCommand();
+     
+        $oCommand->setEnabledTo(null);
+        $oCommand->setEnabledFrom($oEnableFrom);
+        $oCommand->setVoucherTypeId($iNewVoucherTypeId);
+        $oCommand->setSlug($sSlugName);
+        $oCommand->setName($sName);
+        $oCommand->setDescription($sDescription);
+        $oCommand->setVoucherGroupId($iVoucherGroupId);
+        $oCommand->setVoucherGenruleId($iVoucherGenRuleId);
+        $oCommand->setDescription('an updated description');
+     
+        $oCommandBus->handle($oCommand);
+        
+        $this->assertTrue(true);
+        $this->assertEquals($oContainer->getNow(),$oCommand->getEnabledTo());
+        
+        // Test delete if last date give
+        $oCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherType\Command\ExpireVoucherTypeCommand();
+     
+        $oCommand->setEnabledTo($oEnableTo);
+        $oCommand->setEnabledFrom($oEnableFrom);
+        $oCommand->setVoucherTypeId($iNewVoucherTypeId);
+        $oCommand->setSlug($sSlugName);
+        $oCommand->setName($sName);
+        $oCommand->setDescription($sDescription);
+        $oCommand->setVoucherGroupId($iVoucherGroupId);
+        $oCommand->setVoucherGenruleId($iVoucherGenRuleId);
+        $oCommand->setDescription('an updated description');
+     
+     
+        $oCommandBus->handle($oCommand);
+        
+        $this->assertTrue(true);
+     
+        $this->assertEquals($oEnableTo,$oCommand->getEnabledTo());
+
+    }
+    
+    
+     public function testVoucherInstanceCreate()
+     {
+        $oContainer = $this->getContainer();
+        $oCommandBus = $this->getContainer()->getCommandBus();
+        
+        $oRuleCommand = new \IComeFromTheNet\VoucherNum\Model\VoucherInstance\Command\CreateVoucherCommand();
+        
+        $oRuleCommand->setVoucherTypeId(1);
+        $oRuleCommand->setVoucherCode('aaa_01_01');
+        
+        $oCommandBus->handle($oRuleCommand);    
+        
+        
+        $this->assertNotEmpty($oRuleCommand->getVoucherInstanceId());
+     }
     
     
 }

@@ -288,7 +288,7 @@ class VoucherType
                 ['voucherNameSlug']
             ]
             ,'required' => [
-                ['voucherName'],['voucherGenRuleId'],['voucherName'],['voucherGroupId'],['voucherEnabledFrom'],['voucherEnabledTo']
+                ['voucherName'],['voucherGenRuleId'],['voucherName'],['voucherGroupId']
             ]
             ,'instanceOf' => [
                 ['voucherEnabledFrom','DateTime'],['voucherEnabledTo','DateTime']

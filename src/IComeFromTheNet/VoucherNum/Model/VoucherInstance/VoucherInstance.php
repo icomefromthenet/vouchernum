@@ -129,14 +129,12 @@ class VoucherInstance
     
    public function getData()
    {
-        $aFields = array(
+        return [
             'voucherCode'       => $this->getVoucherCode(),
             'voucherTypeId'     => $this->getVoucherTypeId(),
             'voucherInstanceId' => $this->getVoucherInstanceId(),
             'VoucherCreated'    => $this->getDateCreated()
-        );
-       
-       
+        ];
    }
     
     

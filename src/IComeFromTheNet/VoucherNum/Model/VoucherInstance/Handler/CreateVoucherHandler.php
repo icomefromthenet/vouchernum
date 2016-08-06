@@ -63,8 +63,11 @@ class CreateVoucherHandler
             foreach($oBuilder->demolish($oVoucherInstance) as $sColumn => $mValue) {
                 switch($sColumn) {
                     case 'voucher_instance_id': break;
-                    case 'date_created' :       $oQuery->addColumn('date_created',$this->oNow);
-                    default :                   $oQuery->addColumn($sColumn,$mValue);    
+                    case 'date_created' :       
+                            $oQuery->addColumn('date_created',$this->oNow); 
+                    break;
+                    default :       
+                            $oQuery->addColumn($sColumn,$mValue);    
                 }
                 
             }

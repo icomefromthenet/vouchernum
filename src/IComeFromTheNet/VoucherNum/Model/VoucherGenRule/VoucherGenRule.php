@@ -284,7 +284,7 @@ class VoucherGenRule implements ValidationInterface
         $iTotalLength += mb_strlen((string)$this->getVoucherSuffix());
         $iTotalLength += mb_strlen((string)$this->getVoucherPrefix());
         
-        return $iTotalLength;
+        return  $iTotalLength;
         
     }
     
@@ -323,7 +323,7 @@ class VoucherGenRule implements ValidationInterface
                 
             ]
             ,'lengthBetween' => [
-                ['slugName',1,25], ['name',1,25], ['voucherSuffix',0,50], ['voucherPrefix',0,50], ['totalLength',1,255]
+                ['slugName',1,25], ['name',1,25], ['voucherSuffix',0,50], ['voucherPrefix',0,50]
                 
             ]
             ,'required' => [
@@ -331,11 +331,11 @@ class VoucherGenRule implements ValidationInterface
                 
             ]
             ,'min' => [
-                ['voucherGenRuleID',1], ['voucherLength',1]
+                ['voucherGenRuleID',1], ['voucherLength',1], ['totalLength',1]
                 
             ]
             ,'max' => [
-                ['voucherLength',100]
+                ['voucherLength',100], ['totalLength',255]
                 
             ]
             ,'in' => [
