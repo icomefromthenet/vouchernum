@@ -1,0 +1,36 @@
+{
+    "name": "icomefromthenet/vouchernum",
+    "description": "Helper to generate unique voucher numbers",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lewis Dyer",
+            "email": "getintouch@icomefromthenet.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require-dev": {
+        "phpunit/phpunit": ">=4",
+        "phpunit/dbunit": ">=1.2",
+        "mrkrstphr/dbunit-fixture-arrays" : "@stable"
+    },
+    "require" : {
+        "icomefromthenet/dbal-gateway" : "dev-master",
+        "pimple/pimple"                : "3.0.*",
+        "psr/log"                      : "1.0.*",
+        "vlucas/valitron"              : "^1.2",
+        "bezdomni/tactician-pimple"    : "^1.0",
+        "league/tactician-command-events": "^0.6.0"
+        
+    },
+    "autoload": {
+        "psr-0": {
+            "IComeFromTheNet\\VoucherNum" : "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IComeFromTheNet\\VoucherNum\\Test\\": "test"
+        }
+    }
+}
