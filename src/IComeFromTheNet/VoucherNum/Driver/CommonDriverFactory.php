@@ -2,10 +2,11 @@
 namespace IComeFromTheNet\VoucherNum\Driver;
 
 use Doctrine\DBAL\Connection;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverInterface;
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverFactoryInterface;
-use IComeFromTheNet\Ledger\Exception\LedgerException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use IComeFromTheNet\VoucherNum\VoucherException;
 use IComeFromTheNet\VoucherNum\Event\VoucherEvents;
 use IComeFromTheNet\VoucherNum\Event\DriverFactoryEvent;
 
@@ -47,7 +48,7 @@ class CommonDriverFactory implements SequenceDriverFactoryInterface
         
         $this->eventDispatcher  = $dispatcher;
 
-        $this->registerDriver('mysql','IComeFromTheNet\\Ledger\\Voucher\\Driver\\MYSQLDriver');
+        $this->registerDriver('mysql','IComeFromTheNet\\VoucherNum\\Driver\\MYSQLDriver');
         
     }
     
@@ -63,11 +64,11 @@ class CommonDriverFactory implements SequenceDriverFactoryInterface
     public function registerDriver($platform,$class)
     {
         if(isset($this->factoryInstances[$platform]) === true) {
-            throw new LedgerException("Platform $platform already registered with factory");
+            throw new VoucherException("Platform $platform already registered with factory");
         }
         
         if(class_exists($class) === false) {
-            throw new LedgerException("Platform driver $class does not exist");
+            throw new VoucherException("Platform driver $class does not exist");
         }
         
         $this->factoryInstances[$platform] = $class;
@@ -103,7 +104,7 @@ class CommonDriverFactory implements SequenceDriverFactoryInterface
     public function getInstance($platform,$table)
     {
         if(!isset($this->factoryInstances[$platform])) {
-            throw new LedgerException("Platform $platform not registered with factory");
+            throw new VoucherException("Platform $platform not registered with factory");
         }
         
         $class = $this->factoryInstances[$platform];

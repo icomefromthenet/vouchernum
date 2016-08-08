@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum\Formatter;
 
 use ArrayIterator;
-use IComeFromTheNet\Ledger\Exception\LedgerException;
+use IComeFromTheNet\VoucherNum\VoucherException;
 
 /**
   *  A Bag to contain instanced formatters.
@@ -17,7 +17,7 @@ use IComeFromTheNet\Ledger\Exception\LedgerException;
 class FormatterBag implements FormatterBagInterface
 {
     
-    protected $formatters = array();
+    protected $formatters = [];
     
     
     /**
@@ -32,7 +32,7 @@ class FormatterBag implements FormatterBagInterface
     public function addFormatter($name,FormatterInterface $f)
     {
         if(isset($this->formatters[$name])) {
-            throw new LedgerException("$name already been added to the Formatter Bag");
+            throw new VoucherException("$name already been added to the Formatter Bag");
         }
         
         $this->formatters[$name] = $f;

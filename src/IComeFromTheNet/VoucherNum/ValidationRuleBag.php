@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum;
 
 use IteratorAggregate;
-use IComeFromTheNet\Ledger\Exception\LedgerException;
+use IComeFromTheNet\VoucherNum\VoucherException;
 
 /**
  *  Provides an interface to select a validation rule from
@@ -52,7 +52,7 @@ class ValidationRuleBag implements IteratorAggregate
         $ruleName = $rule->getName();
         
         if(isset($this->rules[$ruleName])) {
-            throw new LedgerException("$ruleName already been added to the Rule Bag");
+            throw new VoucherException("$ruleName already been added to the Rule Bag");
         }
         
         $this->rules[$ruleName] = $rule;

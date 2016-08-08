@@ -20,7 +20,8 @@
         "psr/log"                      : "1.0.*",
         "vlucas/valitron"              : "^1.2",
         "bezdomni/tactician-pimple"    : "^1.0",
-        "league/tactician-command-events": "^0.6.0"
+        "league/tactician-command-events": "^0.6.0",
+        "zendframework/zend-text": "^2.6"
         
     },
     "autoload": {

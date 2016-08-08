@@ -1,15 +1,16 @@
 <?php
 namespace IComeFromTheNet\VoucherNum\Strategy;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
+use IComeFromTheNet\VoucherNum\VoucherException;
 use IComeFromTheNet\VoucherNum\Strategy\StrategyFactoryInterface;
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverFactoryInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use IComeFromTheNet\Ledger\Exception\LedgerException;
 use IComeFromTheNet\VoucherNum\Event\VoucherEvents;
 use IComeFromTheNet\VoucherNum\Event\StrategyFactoryEvent;
 use IComeFromTheNet\VoucherNum\Strategy\SequenceStrategyInterface;
 use IComeFromTheNet\VoucherNum\Strategy\AutoIncrementStrategy;
-use IComeFromTheNet\VoucherNum\Strategy\UUIDStrategy;
+
 
 /**
   *  Factory that builds Sequence Strategies
@@ -42,8 +43,8 @@ class CommonStrategyFactory implements StrategyFactoryInterface
         $this->eventDispatcher   = $dispatcher;
         $this->strategyInstances = array();
         
-        $this->registerStrategy('sequence','IComeFromTheNet\\Ledger\\Voucher\\Strategy\\AutoIncrementStrategy');
-        $this->registerStrategy('uuid','IComeFromTheNet\\Ledger\\Voucher\\Strategy\\UUIDStrategy');
+        $this->registerStrategy('sequence','IComeFromTheNet\\VoucherNum\\Strategy\\AutoIncrementStrategy');
+  
     }
     
     
@@ -60,11 +61,11 @@ class CommonStrategyFactory implements StrategyFactoryInterface
     public function registerStrategy($name,$class)
     {
         if(isset($this->strategyInstances[$name])) {
-            throw new LedgerException("Sequence strategy $name already registered with factory");
+            throw new VoucherException("Sequence strategy $name already registered with factory");
         }
         
         if(class_exists($class) === false) {
-            throw new LedgerException("Sequence strategy $class does not exist");
+            throw new VoucherException("Sequence strategy $class does not exist");
         }
         
         $this->strategyInstances[$name] = $class;
@@ -113,7 +114,7 @@ class CommonStrategyFactory implements StrategyFactoryInterface
     public function getInstance($name,$platform)
     {
         if(isset($this->strategyInstances[$name]) === true) {
-            throw new LedgerException("Sequence strategy $name not registered with factory");
+            throw new VoucherException("Sequence strategy $name not registered with factory");
         }
         
         if(!$class instanceof SequenceStrategyInterface ) {

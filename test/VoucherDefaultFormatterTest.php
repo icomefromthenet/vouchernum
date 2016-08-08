@@ -1,13 +1,15 @@
 <?php
 namespace IComeFromTheNet\VoucherNum\Test;
 
+use Zend\Stdlib\StringWrapper\MbString;
+use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+
 use IComeFromTheNet\VoucherNum\Test\Base\TestWithContainer;
 use IComeFromTheNet\VoucherNum\Formatter\FormatBagInterface;
 use IComeFromTheNet\VoucherNum\Formatter\FormatterBag;
 use IComeFromTheNet\VoucherNum\Formatter\FormatterInterface;
 use IComeFromTheNet\VoucherNum\Formatter\DefaultFormatter;
 use IComeFromTheNet\VoucherNum\Formatter\PassThroughFormatter;
-use Zend\Stdlib\StringWrapper\MbString;
 
 /**
   *  Test the Voucher Default Formatter
@@ -17,6 +19,19 @@ use Zend\Stdlib\StringWrapper\MbString;
   */
 class VoucherDefaultFormatterTest extends TestWithContainer
 {
+    
+    
+    public function getContainer()
+    {
+        return null;
+    }
+    
+    public function getDataSet()
+    {
+       return new ArrayDataSet([
+           __DIR__.'/Fixture/VoucherFixture.php',
+        ]);
+    }
     
     
     public function testNewFormatter()

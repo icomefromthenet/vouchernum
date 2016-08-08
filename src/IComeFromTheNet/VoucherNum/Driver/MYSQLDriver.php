@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum\Driver;
 
 use Doctrine\DBAL\Connection;
-use IComeFromTheNet\Ledger\Exception\LedgerException;
+use IComeFromTheNet\VoucherNum\VoucherException;
 
 /**
   *  Driver for the mysql plaform. 
@@ -39,7 +39,7 @@ class MYSQLDriver implements SequenceDriverInterface
         $this->dbal               = $dbal;
         
         if(empty($sequenceTableName)) {
-           throw new LedgerException(sprinf("The sequence table name is empty string"));
+           throw new VoucherException(sprinf("The sequence table name is empty string"));
         }
         
         $this->sequenceTableName = $sequenceTableName;
@@ -72,7 +72,7 @@ class MYSQLDriver implements SequenceDriverInterface
         $statement =  $this->dbal->prepare('SELECT '.$this->dbal->getDatabasePlatform()->getGuidExpression().' AS myuuid;');
         
         if($statement->execute() === false) {
-            throw new LedgerException('Unable to call uuid on database');
+            throw new VoucherException('Unable to call uuid on database');
         }
         
         return $statement->fetchColumn(0);
@@ -94,14 +94,14 @@ class MYSQLDriver implements SequenceDriverInterface
         
         # update row
         if($this->dbal->executeUpdate($updateStr,array($name)) == 0) {
-            throw new LedgerException('Unable to update voucher sequence with name '.$name);
+            throw new VoucherException('Unable to update voucher sequence with name '.$name);
         }
         
         # select the return
         $statement =  $this->dbal->prepare($selectStr);
         
         if($statement->execute() === false) {
-            throw new LedgerException('Unable to reterive last updated sequence for name '.$name);
+            throw new VoucherException('Unable to reterive last updated sequence for name '.$name);
         }
         
         return (integer) $statement->fetchColumn(0);
