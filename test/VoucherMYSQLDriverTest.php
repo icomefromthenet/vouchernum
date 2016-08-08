@@ -5,6 +5,7 @@ use Doctrine\DBAL\Connection;
 use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
 
 use IComeFromTheNet\VoucherNum\VoucherException;
+use IComeFromTheNet\VoucherNum\VoucherContainer;
 use IComeFromTheNet\VoucherNum\Driver\MYSQLDriver;
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverInterface;
 
@@ -19,8 +20,7 @@ class VoucherMYSQLDriverTest extends VoucherTestAbstract
 {
     
     
-    const SEQUENCE_TABLE_NAME = 'ledger_voucher';
-
+    
     
     public function getDataSet()
     {
@@ -33,9 +33,7 @@ class VoucherMYSQLDriverTest extends VoucherTestAbstract
         $connection = $this->getContainer()->getDatabaseAdapter();
         $schema     = $this->getContainer()->getGatewayFactory()->getSchema();
         
-        $this->assertTrue($schema->hasTable(self::SEQUENCE_TABLE_NAME),'Database is missing sequence table::'.self::SEQUENCE_TABLE_NAME);
-        
-        $driver = new MYSQLDriver($connection,self::SEQUENCE_TABLE_NAME);
+        $driver = new MYSQLDriver($connection,VoucherContainer::DB_TABLE_VOUCHER_RULE);
         
         $this->assertInstanceOf('IComeFromTheNet\VoucherNum\Driver\SequenceDriverInterface',$driver);    
     }
@@ -45,46 +43,33 @@ class VoucherMYSQLDriverTest extends VoucherTestAbstract
     {
         $connection = $this->getContainer()->getDatabaseAdapter();
         $schema     = $this->getContainer()->getGatewayFactory()->getSchema();
-        $driver = new MYSQLDriver($connection,self::SEQUENCE_TABLE_NAME);
+        $driver = new MYSQLDriver($connection,VoucherContainer::DB_TABLE_VOUCHER_RULE);
         
-        $seq = $driver->sequence('invoice');
+        $seq = $driver->sequence('rule_fixture_a');
         
         $this->assertInternalType('integer',$seq);
         $this->assertGreaterThan(0,$seq,'sequence is not greater than 0');
         
-        $seq2 = $driver->sequence('invoice');
+        $seq2 = $driver->sequence('rule_fixture_a');
         
         $this->assertEquals($seq+1,$seq2);
         
     }
     
     /**
-     * @expectedException IComeFromTheNet\Ledger\Exception\LedgerException
+     * @expectedException IComeFromTheNet\VoucherNum\VoucherException
      * @expectedExcetpionMessage Unable to update voucher sequence with name aaaa
     */
     public function testSequenceErrorWhenVoucherNotExist()
     {
         $connection = $this->getContainer()->getDatabaseAdapter();
         $schema     = $this->getContainer()->getGatewayFactory()->getSchema();
-        $driver = new MYSQLDriver($connection,self::SEQUENCE_TABLE_NAME);
+        $driver = new MYSQLDriver($connection,VoucherContainer::DB_TABLE_VOUCHER_RULE);
         
         $seq = $driver->sequence('aaaa');
         
     }
     
-    
-    public function testUUIDReturnsValue()
-    {
-        $connection = $this->getContainer()->getDatabaseAdapter();
-        $schema     = $this->getContainer()->getGatewayFactory()->getSchema();
-        $driver = new MYSQLDriver($connection,self::SEQUENCE_TABLE_NAME);
-        
-        $seq = $driver->uuid('');
-        $this->assertRegExp('/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/',$seq);
-        $seq2 = $driver->uuid('');
-        
-        $this->assertNotEquals($seq,$seq2);
-    }
     
 }
 /* End of Class */

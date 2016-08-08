@@ -58,26 +58,6 @@ class MYSQLDriver implements SequenceDriverInterface
     //-------------------------------------------------------
     # SequenceInterface
     
-   
-    /*
-     * Generate a unique UUID from database
-     *
-     * @access public
-     * @return integer|string a sequence value
-     * @param string $sequenceName the sequence name
-     *
-     */
-    public function uuid($name)
-    {
-        $statement =  $this->dbal->prepare('SELECT '.$this->dbal->getDatabasePlatform()->getGuidExpression().' AS myuuid;');
-        
-        if($statement->execute() === false) {
-            throw new VoucherException('Unable to call uuid on database');
-        }
-        
-        return $statement->fetchColumn(0);
-    }
-    
     /*
      * Generate a uniqe incrementing number
      *
@@ -89,7 +69,7 @@ class MYSQLDriver implements SequenceDriverInterface
     public function sequence($name)
     {
         # will find the current voucher ie where max-date is set
-        $updateStr = 'UPDATE '.$this->sequenceTableName. ' SET voucher_sequence_no = LAST_INSERT_ID(voucher_sequence_no + 1) WHERE voucher_slug = ? AND voucher_enabled_to = \'3000-01-01 00:00:00\';';
+        $updateStr = 'UPDATE '.$this->sequenceTableName. ' SET voucher_sequence_no = LAST_INSERT_ID(voucher_sequence_no + 1) WHERE voucher_rule_slug = ?;';
         $selectStr = 'SELECT LAST_INSERT_ID();';
         
         # update row

@@ -23,25 +23,16 @@ interface SequenceDriverInterface
     */
     public function getPlatform();
     
-     /*
-     * Generate a unique UUID from database
-     *
-     * @access public
-     * @return integer|string a sequence value
-     * @param string $sequenceName the sequence name
-     *
-     */
-    public function uuid($name);
     
-    /*
-     * Generate a uniqe incrementing number
-     *
-     * @access public
-     * @return integer|string a sequence value
-     * @param string $sequenceName the sequence name
-     *
-     */
-    public function sequence($name);
+    
+    /**
+     * Release a lock on table row
+     * 
+     * @return boolean true if lock released
+     * @param string the name of the row to lock
+     */ 
+    public function unlockRow($name);
+    
     
     
 }
