@@ -5,7 +5,7 @@ use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
 
 use IComeFromTheNet\VoucherNum\Rule\AlwaysInvalidRule;
 use IComeFromTheNet\VoucherNum\Rule\AlwaysValidRule;
-use IComeFromTheNet\VoucherNum\ValidationRuleBag;
+use IComeFromTheNet\VoucherNum\Rule\ValidationRuleBag;
 
 /**
   *  Test the Voucher Validation Rule Bag

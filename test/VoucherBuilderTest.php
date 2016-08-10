@@ -28,9 +28,9 @@ class VoucherBuilderTest extends VoucherTestAbstract
            $sAlias.'_voucher_group_id'    =>  1
           ,$sAlias.'_voucher_group_name'  => 'slug name'
           ,$sAlias.'_voucher_group_slug'  => 'slug_name'
-          ,$sAlias.'_is_disabled'         => 0
-          ,$sAlias.'_sort_order'          => 1
-          ,$sAlias.'_date_created'        => new DateTime()
+          ,$sAlias.'_is_disabled'               => 0
+          ,$sAlias.'_sort_order'                => 1
+          ,$sAlias.'_date_created'               => new DateTime()
         );
         
         $oVoucherGroup = $oBuilder->build($aFields);
@@ -51,6 +51,7 @@ class VoucherBuilderTest extends VoucherTestAbstract
         $this->assertEquals($oVoucherGroup->getDisabledStatus(),(boolean)$aFields['is_disabled']);
         $this->assertEquals($oVoucherGroup->getSortOrder(),$aFields['sort_order']);
         $this->assertEquals($oVoucherGroup->getDateCreated(),$aFields['date_created']);
+        
     }
     
     
@@ -70,6 +71,7 @@ class VoucherBuilderTest extends VoucherTestAbstract
             $sAlias.'_'.'voucher_length' =>100,
             $sAlias.'_'.'date_created' => new DateTime(),
             $sAlias.'_'.'voucher_sequence_strategy' =>'uuid',
+            $sAlias.'_voucher_validate_rules' => array('always-valid')
         );
         
         $oVoucherRule = $oBuilder->build($aFields);
@@ -84,6 +86,7 @@ class VoucherBuilderTest extends VoucherTestAbstract
         $this->assertEquals($aFields[$sAlias.'_'.'voucher_length'],$oVoucherRule->getVoucherLength());
         $this->assertEquals($aFields[$sAlias.'_'.'date_created'],$oVoucherRule->getDateCreated());
         $this->assertEquals($aFields[$sAlias.'_'.'voucher_sequence_strategy'],$oVoucherRule->getSequenceStrategyName());
+        $this->assertEquals($aFields[$sAlias.'_'.'voucher_validate_rules'],$oVoucherRule->getValidationRules());
         
         # test demolish
         $aNewFields = $oBuilder->demolish($oVoucherRule);
@@ -97,7 +100,7 @@ class VoucherBuilderTest extends VoucherTestAbstract
         $this->assertEquals($aFields[$sAlias.'_'.'voucher_length'],$aNewFields['voucher_length']);
         $this->assertEquals($aFields[$sAlias.'_'.'date_created'],$aNewFields['date_created']);
         $this->assertEquals($aFields[$sAlias.'_'.'voucher_sequence_strategy'],$aNewFields['voucher_sequence_strategy']);
-        
+        $this->assertEquals($aFields[$sAlias.'_'.'voucher_validate_rules'],$aNewFields['voucher_validate_rules']);
     }
     
     

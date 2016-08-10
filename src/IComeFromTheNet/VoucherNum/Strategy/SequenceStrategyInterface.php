@@ -1,7 +1,6 @@
 <?php
 namespace IComeFromTheNet\VoucherNum\Strategy;
 
-use IComeFromTheNet\VoucherNum\SequenceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**

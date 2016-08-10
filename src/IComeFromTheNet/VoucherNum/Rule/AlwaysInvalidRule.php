@@ -1,7 +1,6 @@
 <?php
 namespace IComeFromTheNet\VoucherNum\Rule;
 
-use IComeFromTheNet\VoucherNum\ValidationRuleInterface;
 
 /**
   *  A Rule that will return invalid to a check.

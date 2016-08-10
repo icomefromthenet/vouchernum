@@ -224,5 +224,11 @@ class CommandBusProvider implements ServiceProviderInterface
     }
     
     
+    public function boot(Container $pimple)
+    {
+       
+    }
+    
+    
 }
 /* End of Class */

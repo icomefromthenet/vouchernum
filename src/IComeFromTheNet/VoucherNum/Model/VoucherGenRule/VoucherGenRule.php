@@ -61,6 +61,12 @@ class VoucherGenRule implements ValidationInterface
     protected $sSequenceStrategy;
     
     /**
+     * @var validation rules
+     */ 
+    protected $aValidationRules;
+    
+    
+    /**
      * Fetches the database rule id
      * 
      * @return integer the database id
@@ -273,6 +279,27 @@ class VoucherGenRule implements ValidationInterface
     {
        $this->sSequenceStrategy = (string) $sName;
     }
+    
+    /**
+     * Return array of validation rules
+     * 
+     * @return array[IComeFromTheNet\VoucherNum\Rule\ValidationRuleInterface]
+     */ 
+    public function getValidationRules()
+    {
+        return $this->aValidationRules;
+    }
+    
+    /**
+     * Set array of validation rules
+     * 
+     * @param array[IComeFromTheNet\VoucherNum\Rule\ValidationRuleInterface]
+     */ 
+    public function setValidationRules(array $aRules)
+    {
+        $this->aValidationRules = $aRules;
+    }
+    
     
     //------------------------------------------------------
     

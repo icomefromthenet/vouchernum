@@ -1,11 +1,7 @@
 <?php
 namespace IComeFromTheNet\VoucherNum;
 
-use IComeFromTheNet\VoucherNum\DB\VoucherType;
-use IComeFromTheNet\VoucherNum\DB\VoucherGenRule;
-use IComeFromTheNet\VoucherNum\DB\VoucherInstance;
-use IComeFromTheNet\VoucherNum\DB\VoucherGroup;
-use IComeFromTheNet\VoucherNum\VoucherException;
+use IComeFromTheNet\VoucherNum\Model\VoucherType\VoucherType;
 
 /**
  * Voucher
@@ -27,6 +23,49 @@ class VoucherService
      */ 
     protected $aLastValidationResults;
     
+    
+    /**
+     * Return a new voucher number
+     * 
+     */ 
+    protected function generateVoucher(VoucherType $oVoucherType)
+    {
+        $aRules    = [];
+        $oSequence = null;
+        
+        // Lookup the rule that apply
+        
+        $oVoucherRule = $this->getContainer()
+                             ->getGateway(VoucherContainer::DB_TABLE_VOUCHER_RULE)
+                             ->selectQuery()
+                                ->start()
+                                    ->filterByRule($oVoucherType->getVoucherGenRuleId())
+                                ->end()
+                             ->findOne();
+        
+        if(true === empty($oVoucherRule)) {
+            throw new VoucherException('Unable to find voucher Generator Rule');
+        }
+        
+        
+        //Lookup any voucher validation rules
+        
+        foreach($oVoucherRule->getValidationRules() as $sRuleName) {
+            $aRules[] = $this->getContainer()->getValidationRuleRegistry()->getInstance($sRuleName);
+        }
+        
+        
+        // Build the Sequence Strategy
+        $oSequence = $this->getContainer();
+        
+        
+        // Instance the Generator
+        
+        
+        
+    }
+    
+    
     /**
      * Voucher Service Constructor
      * 
@@ -44,126 +83,41 @@ class VoucherService
     # Public API
     
     
-    public function lookupType()
+    public function generateVoucherByName($sVoucherTypeSlugName)
     {
+        $oVoucherType = $this->getContainer()
+                             ->getGateway(VoucherContainer::DB_TABLE_VOUCHER_TYPE)
+                             ->selectQuery()
+                                ->start()
+                                   ->filterByVoucherTypeName($sVoucherTypeSlugName)
+                                ->end()
+                             ->findOne(); 
         
-        
-    }
-    
-    
-    public function lookupGroup()
-    {
-    
-        
-    }
-    
-    
-    public function lookupRule()
-    {
-    
-        
-    }
-    
-    
-    public function createVoucher(VoucherType $oType, $aResult = array())
-    {
-        
-        $oOperations = $this->getContainer()->getVoucherTypeOperations();
-        $oOperation  = $this->getContainer()->getOperationLogDecerator($oOperations['create']);            
-        $bSuccess    = false;
-    
-        $mValid = $oType->validate();
-        if(is_array($mValid)) {
-           $aResult['error'] = $mValid;
-           $aResult['msg']   = 'The new voucher type failed validation test';
-        }
-        else {
-       
-            try {
-                
-                $bSuccess = $oOperation->execute($oType);
-                
-                if(false === $bSuccess) {
-                    $aResult['error'] = null;
-                    $aResult['msg']   = 'unknown database issue'; 
-                }
-                
-            } catch(VoucherException $e) {
-                $aResult['msg']    = $e->getMessage();
-                $aResult['error']  = $e;
-            }         
-        
+        if(true === empty($oVoucherType)) {
+            throw new VoucherException('Unable to find voucher with name :: '.$sVoucherTypeSlugName);
         }
         
-        $aResult['success'] = $bSuccess;
-        
-        return $aResult;
-    }
-    
-    public function expireVoucher(VoucherType $oType)
-    {
+        return $this->generateVoucher($oVoucherType);
         
     }
     
     
-    
-    public function reviseVoucher(VoucherType $oType)
+    public function generateVoucherById($iVoucherTypeDatabaseId)
     {
+        $oVoucherType = $this->getContainer()
+                             ->getGateway(VoucherContainer::DB_TABLE_VOUCHER_TYPE)
+                                ->selectQuery()
+                                    ->start()
+                                        ->filterByVoucherType($iVoucherTypeDatabaseId)
+                                    ->end()
+                              ->findOne(); 
         
+        if(true === empty($oVoucherType)) {
+            throw new VoucherException('Unable to find voucher at id :: '.$iVoucherTypeDatabaseId);
+        }
         
+        return $this->generateVoucher($oVoucherType);
     }
-    
-    
-    public function createGroup(VoucherGroup $oGroup)
-    {
-    
-        
-    }
-    
-    
-    public function removeGroup(VoucherGroup $oGroup)
-    {
-    
-        
-    }
-    
-    public function reviseGroup(VoucherGroup $oGroup)
-    {
-    
-        
-    }
-    
-    public function createRule(VoucherGenRule $oRule)
-    {
-    
-        
-    }
-    
-    
-    public function reviseRule(VoucherGenRule $oRule)
-    {
-    
-        
-    }
-    
-    
-    public function disableRule(VoucherGenRule $oRule)
-    {
-        
-        
-    }
-    
-    public function enableRule(VoucherGenRule $oRule)
-    {
-        
-    }
-    
-    
-    public function generateVoucher(VoucherType $oType)
-    {
-        
-    }    
-    
     
     //--------------------------------------------------------------------------
     # Properties

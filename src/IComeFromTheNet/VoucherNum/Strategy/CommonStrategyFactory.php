@@ -42,9 +42,7 @@ class CommonStrategyFactory implements StrategyFactoryInterface
         $this->driverFactory     = $driverFactory;
         $this->eventDispatcher   = $dispatcher;
         $this->strategyInstances = array();
-        
-        $this->registerStrategy('sequence','IComeFromTheNet\\VoucherNum\\Strategy\\AutoIncrementStrategy');
-  
+       
     }
     
     

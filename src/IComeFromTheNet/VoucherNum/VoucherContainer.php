@@ -12,6 +12,10 @@ use DBALGateway\Table\GatewayProxyCollection;
 
 use IComeFromTheNet\VoucherNum\Provider\DBGatewayProvider;
 use IComeFromTheNet\VoucherNum\Provider\CommandBusProvider;
+use IComeFromTheNet\VoucherNum\Provider\ValidRuleProvider;
+use IComeFromTheNet\VoucherNum\Provider\SequenceDriverProvider;
+use IComeFromTheNet\VoucherNum\Provider\SequenceProvider;
+
 
 /**
  * Voucher Service Container
@@ -48,20 +52,19 @@ class VoucherContainer extends Container
     }
     
     
-    /**
-     * Short cust to fetch database gateways classes from the factory
-     * 
-     * @return D
-     */ 
-    public function getGateway($sGateway)
+    protected function getServiceProviders()
     {
-        return $this->getGatewayFactory()->getGateway($sGateway);
+        return [
+             new DBGatewayProvider($this->getDefaultTableMap(), $this->getGatewayProxyCollection()->getSchema(), $this->getGatewayProxyCollection()),
+             new CommandBusProvider(),
+             new ValidRuleProvider(),
+             new SequenceDriverProvider(),
+             new SequenceProvider(),
+        ];
+        
     }
     
-    public function getGatewayProxyCollection()
-    {
-        return $this['gatewayProxyCollection'];
-    }
+    
     
     /**
      * DI Container constrcutor
@@ -78,6 +81,17 @@ class VoucherContainer extends Container
         $this['gatewayProxyCollection'] = $col;
         $this['logger']      = $oLogger;
     }
+    
+    /**
+     * Short cust to fetch database gateways classes from the factory
+     * 
+     * @return D
+     */ 
+    public function getGateway($sGateway)
+    {
+        return $this->getGatewayFactory()->getGateway($sGateway);
+    }
+    
     
     
     /**
@@ -110,6 +124,17 @@ class VoucherContainer extends Container
         return $this['logger'];
     }
     
+    
+    /**
+     *  Return the proxy gateway collection
+     * 
+     * @access public
+     * @return IComeFromTheNet\Ledger\GatewayProxyCollection
+     */ 
+    public function getGatewayProxyCollection()
+    {
+        return $this['gatewayProxyCollection'];
+    }
     
     
     /**
@@ -146,19 +171,38 @@ class VoucherContainer extends Container
         return $this['commandBus'];
     }
     
+    /**
+     * Return The Validation Rule Registry
+     * 
+     * @return IComeFromTheNet\VoucherNum\Rule\ValidationRuleRegistry
+     */
+    public function getValidationRuleRegistry()
+    {
+        return $this['valid.rule.registry'];
+    }
+    
+    /**
+     * Return the Sequence Strategy Factory
+     *  
+     * @return IComeFromTheNet\VoucherNum\Strategy\StrategyFactoryInterface
+     */ 
+    public function getSequenceFactory()
+    {
+        return $this['sequence.factory'];
+    }
+    
+    /**
+     * Return the Sequence Database Factory
+     * 
+     * @return IComeFromTheNet\VoucherNum\Driver\SequenceDriverFactoryInterface
+     */ 
+    public function getSequenceDriverFactory()
+    {
+        return $this['sequence.driver.factory'];
+    }
     
     //--------------------------------------------------------------------------
     # Service Bootstrap
-    
-    
-    protected function getServiceProviders()
-    {
-        return [
-             new DBGatewayProvider($this->getDefaultTableMap(), $this->getGatewayProxyCollection()->getSchema(), $this->getGatewayProxyCollection()),
-             new CommandBusProvider(),
-        ];
-        
-    }
     
     
     /**
@@ -175,11 +219,17 @@ class VoucherContainer extends Container
         
         $oProviders = $this->getServiceProviders();
         
+        
         foreach($oProviders as $oProvider)
         {
             $oProvider->register($this);
         }
         
+        
+        foreach($oProviders as $oProvider)
+        {
+            $oProvider->boot($this);
+        }
         
     }
     

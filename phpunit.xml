@@ -24,7 +24,16 @@
     
     <testsuites>
         <testsuite name="default">
-            <directory suffix="Test.php">test</directory>
+              <file>test/VoucherEntityTest.php</file>
+              <file>test/VoucherBuilderTest.php</file>
+              <file>test/VoucherOperationsTest.php</file>
+              <file>test/VoucherStrategyFactoryTest.php</file>
+              <file>test/VoucherFormatterBagTest.php</file>
+              <file>test/VoucherRuleBagTest.php</file>
+              <file>test/VoucherDriverFactoryTest.php</file>
+              <file>test/VoucherDefaultFormatterTest.php</file>
+              <file>test/VoucherAutoIncrementStrategyTest.php</file>
+              <file>test/VoucherMYSQLDriverTest.php</file>
         </testsuite>
     </testsuites>  
     

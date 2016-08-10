@@ -48,8 +48,6 @@ class CommonDriverFactory implements SequenceDriverFactoryInterface
         
         $this->eventDispatcher  = $dispatcher;
 
-        $this->registerDriver('mysql','IComeFromTheNet\\VoucherNum\\Driver\\MYSQLDriver');
-        
     }
     
     

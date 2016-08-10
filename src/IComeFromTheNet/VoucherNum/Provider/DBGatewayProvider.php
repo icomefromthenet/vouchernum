@@ -192,7 +192,7 @@ class DBGatewayProvider implements ServiceProviderInterface
             $table->addColumn('date_created','datetime',array());
             $table->addColumn('voucher_sequence_no','integer',array('unsigned'=> true));
             $table->addColumn('voucher_sequence_strategy','string',array('length'=> 20));
-            
+            $table->addColumn('voucher_validate_rules','array',array());
             
             $table->setPrimaryKey(array('voucher_gen_rule_id'));
             
@@ -218,6 +218,12 @@ class DBGatewayProvider implements ServiceProviderInterface
         });
      
      }
+     
+     
+    public function boot(Container $pimple)
+    {
+       
+    }
     
     
 }

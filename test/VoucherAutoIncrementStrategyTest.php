@@ -9,7 +9,7 @@ use IComeFromTheNet\VoucherNum\VoucherException;
 use IComeFromTheNet\VoucherNum\Strategy\AutoIncrementStrategy;
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverInterface;
 use IComeFromTheNet\VoucherNum\Strategy\SequenceStrategyInterface;
-use IComeFromTheNet\VoucherNum\SequenceInterface;
+use IComeFromTheNet\VoucherNum\Strategy\SequenceInterface;
 use IComeFromTheNet\VoucherNum\Event\VoucherEvents;
 use IComeFromTheNet\VoucherNum\Event\SequenceEvent;
 
@@ -39,7 +39,7 @@ class VoucherAutoIncrementStrategyTest extends VoucherTestAbstract
       $strategy = new AutoIncrementStrategy($driver,$event);
     
       $this->assertInstanceOf('IComeFromTheNet\VoucherNum\Strategy\SequenceStrategyInterface',$strategy);
-      $this->assertInstanceOf('IComeFromTheNet\VoucherNum\SequenceInterface',$strategy);
+      $this->assertInstanceOf('IComeFromTheNet\VoucherNum\Strategy\SequenceInterface',$strategy);
    }
  
  

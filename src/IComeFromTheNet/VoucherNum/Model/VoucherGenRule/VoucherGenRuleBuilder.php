@@ -3,6 +3,7 @@ namespace IComeFromTheNet\VoucherNum\Model\VoucherGenRule;
 
 use DBALGateway\Builder\AliasBuilder;
 
+
 /**
  * Builds Voucher Generator Rules
  * 
@@ -11,6 +12,8 @@ use DBALGateway\Builder\AliasBuilder;
  */ 
 class VoucherGenRuleBuilder extends AliasBuilder
 {
+    
+    
     /**
       *  Convert data array into entity
       *
@@ -32,6 +35,7 @@ class VoucherGenRuleBuilder extends AliasBuilder
         $iVoucherLength         = $this->getField($data,'voucher_length',$sAlias);
         $oDateCreated           = $this->getField($data,'date_created',$sAlias);
         $sSequenceStrategy      = $this->getField($data,'voucher_sequence_strategy',$sAlias);
+        $aValidRuleList         = $this->getField($data,'voucher_validate_rules',$sAlias);
         
         
         $oEntity->setVoucherGenRuleId($iVoucherGenId);
@@ -43,6 +47,7 @@ class VoucherGenRuleBuilder extends AliasBuilder
         $oEntity->setVoucherLength($iVoucherLength);
         $oEntity->setDateCreated($oDateCreated);
         $oEntity->setSequenceStrategyName($sSequenceStrategy);
+        $oEntity->setValidationRules($aValidRuleList);
         
         return $oEntity;
     }
@@ -66,6 +71,7 @@ class VoucherGenRuleBuilder extends AliasBuilder
          ,'voucher_length'      => $entity->getVoucherLength()
          ,'date_created'        => $entity->getDateCreated()
          ,'voucher_sequence_strategy'=> $entity->getSequenceStrategyName()
+         ,'voucher_validate_rules' => $entity->getValidationRules()
         );
         
         return $aData;

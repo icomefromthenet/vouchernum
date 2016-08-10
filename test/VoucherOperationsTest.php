@@ -92,6 +92,7 @@ class VoucherOperationsTest extends VoucherTestAbstract
         $oRuleCommand->setVoucherPrefix('my_');
         $oRuleCommand->setVoucherLength(5);
         $oRuleCommand->setSequenceStrategyName('SEQUENCE');
+        $oRuleCommand->setValidationRules(array('always-valid'));
         
         $oCommandBus->handle($oRuleCommand);    
         
@@ -112,8 +113,9 @@ class VoucherOperationsTest extends VoucherTestAbstract
          $oRuleCommand->setVoucherPrefix('my_');
          $oRuleCommand->setVoucherLength(5);
          $oRuleCommand->setSequenceStrategyName('SEQUENCE');
+         $oRuleCommand->setValidationRules(array('always-valid'));
          $oRuleCommand->setVoucherGenRuleId($iRuleId);      
-        
+         
         
          $oCommandBus->handle($oRuleCommand);    
         
