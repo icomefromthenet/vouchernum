@@ -20,18 +20,16 @@ class StrategyFactoryEvent extends Event
 {
     protected $factory;
     
-    protected $strategy;
     
     protected $strategyName;
     
     protected $className;
    
-    public function __construct(StrategyFactoryInterface $factory, $name, $className, SequenceStrategyInterface $strategy = null)
+    public function __construct(StrategyFactoryInterface $factory, $name, $className)
     {
         $this->factory      = $factory;
         $this->strategyName = $name;
         $this->className    = $className;
-        $this->strategy     = $strategy;
         
     }
     
@@ -58,18 +56,7 @@ class StrategyFactoryEvent extends Event
     {
         return $this->strategyName;
     }
-    
-    /**
-     *  Gets the driver if instanced
-     *
-     *  @access public
-     *  @return IComeFromTheNet\VoucherNum\Strategy\SequenceStrategyInterface
-     *
-    */
-    public function getStrategy()
-    {
-        return $this->strategy;
-    }
+   
     
     /**
      *  Fetch the strategy class name

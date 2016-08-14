@@ -2,10 +2,13 @@
 namespace IComeFromTheNet\VoucherNum\Formatter;
 
 use ArrayIterator;
+use Zend\Stdlib\StringWrapper\MbString;
 use IComeFromTheNet\VoucherNum\VoucherException;
+use IComeFromTheNet\VoucherNum\Model\VoucherGenRule\VoucherGenRule;
 
 /**
-  *  A Bag to contain instanced formatters.
+  *  A Bag to contain instanced formatters, Possible for a rule to share many voucher type, this
+  *  allows formatters to be resused.
   *
   *  A formatter combines the sequence with a prefix and suffix
   *  with optional length and any other params defined at runtime
@@ -18,6 +21,16 @@ class FormatterBag implements FormatterBagInterface
 {
     
     protected $formatters = [];
+    
+    protected $sFormatterClass = null;
+    
+    
+    
+    
+    public function __construct($sFormatterClass) 
+    {
+        $this->sFormatterClass = $sFormatterClass;
+    }
     
     
     /**
@@ -99,6 +112,40 @@ class FormatterBag implements FormatterBagInterface
         return new \ArrayIterator($this->formatters);
     }
     
+    
+    //-------------------------------------------------------------
+    
+    /**
+     * Instance a formatter with the given rule, if the formatter
+     * alrady e
+     * 
+     */ 
+    public function addFormatterForRule(VoucherGenRule $oRule) 
+    {
+        // does rule ready loaded
+        $iRuleId = $oRule->getVoucherGenRuleId();
+        $oFormatter = null;
+        
+        if(true === $this->existsFormatter($iRuleId)) {
+            $oFormatter = $this->getFormatter($iRuleId);
+        }
+        else {
+            
+            $sClass = $this->sFormatterClass;
+            
+            $oFormatter = new $sClass(
+                 new MbString()
+                ,$oRule->getVoucherSuffix()
+                ,$oRule->getVoucherPrefix()
+                ,$oRule->getVoucherLength()
+                ,$oRule->getVoucherPaddingCharacter()
+            );
+            
+        }
+        
+        
+        return $oFormatter;
+    }
 }
 /* End of Class */
  

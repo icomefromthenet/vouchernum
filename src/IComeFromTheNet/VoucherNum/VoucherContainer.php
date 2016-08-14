@@ -15,7 +15,7 @@ use IComeFromTheNet\VoucherNum\Provider\CommandBusProvider;
 use IComeFromTheNet\VoucherNum\Provider\ValidRuleProvider;
 use IComeFromTheNet\VoucherNum\Provider\SequenceDriverProvider;
 use IComeFromTheNet\VoucherNum\Provider\SequenceProvider;
-
+use IComeFromTheNet\VoucherNum\Provider\FormatterProvider;
 
 /**
  * Voucher Service Container
@@ -60,6 +60,7 @@ class VoucherContainer extends Container
              new ValidRuleProvider(),
              new SequenceDriverProvider(),
              new SequenceProvider(),
+             new FormatterProvider(),
         ];
         
     }
@@ -201,6 +202,17 @@ class VoucherContainer extends Container
         return $this['sequence.driver.factory'];
     }
     
+    /**
+     * Return the Formatter Registry
+     * 
+     * @return IComeFromTheNet\VoucherNum\Formatter\FormatterBagInterface
+     */ 
+    public function getFormatterBag()
+    {
+        return $this['formatterbag']; 
+        
+    }
+    
     //--------------------------------------------------------------------------
     # Service Bootstrap
     
@@ -215,6 +227,7 @@ class VoucherContainer extends Container
         
         $this['now']      = $now;
         $this['tablemap'] = $aTableMap;
+
 
         
         $oProviders = $this->getServiceProviders();

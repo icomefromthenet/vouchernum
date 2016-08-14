@@ -45,7 +45,7 @@ class VoucherStrategyFactoryTest extends VoucherTestAbstract
       $driver = $this->createMock('IComeFromTheNet\VoucherNum\Driver\SequenceDriverFactoryInterface');
       $event  = $this->createMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
     
-      $event->expects($this->at(1))
+      $event->expects($this->at(0))
             ->method('dispatch')
             ->with($this->equalTo(VoucherEvents::SEQUENCE_STRATEGY_REGISTERED),$this->isInstanceOf('IComeFromTheNet\VoucherNum\Event\StrategyFactoryEvent'));
      
@@ -67,6 +67,7 @@ class VoucherStrategyFactoryTest extends VoucherTestAbstract
      
       $strategy = new  CommonStrategyFactory($driver,$event);
     
+      $strategy->registerStrategy('sequence','IComeFromTheNet\\VoucherNum\\Strategy\\AutoIncrementStrategy');
       $strategy->registerStrategy('sequence','IComeFromTheNet\\VoucherNum\\Strategy\\AutoIncrementStrategy');
     
    }

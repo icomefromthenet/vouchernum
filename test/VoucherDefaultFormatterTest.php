@@ -166,7 +166,7 @@ class VoucherDefaultFormatterTest extends TestWithContainer
         
     }
     
-    public function testFormatCutoffFromMaxLength()
+    public function testFormatNoCutoffFromMaxLength()
     {
         $prefix      = 'REF_';
         $suffix      = '_INV';
@@ -176,7 +176,7 @@ class VoucherDefaultFormatterTest extends TestWithContainer
         
         $formatter = new DefaultFormatter($wrapper,$suffix,$prefix,$maxLength,$paddingChar);
         
-        $this->assertEquals('REF_1_I',$formatter->format(1));
+        $this->assertEquals('REF_1_INV',$formatter->format(1));
         
     }
 

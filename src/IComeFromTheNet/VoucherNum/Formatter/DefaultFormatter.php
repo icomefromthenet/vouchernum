@@ -73,9 +73,7 @@ class DefaultFormatter implements FormatterInterface
             
             $refLength = $this->getStringWrapper()->strlen($ref);
             
-            if($refLength > $length) {
-                $ref = $this->getStringWrapper()->substr($ref,0,($length -1));
-            } else if($refLength < $length) {
+            if($refLength < $length) {
                 $ref = $this->getStringWrapper()->strPad($ref, ($length -1), $this->getPadding());
             } 
         }

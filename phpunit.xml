@@ -34,6 +34,7 @@
               <file>test/VoucherDefaultFormatterTest.php</file>
               <file>test/VoucherAutoIncrementStrategyTest.php</file>
               <file>test/VoucherMYSQLDriverTest.php</file>
+              <file>test/VoucherGeneratorTest.php</file>
         </testsuite>
     </testsuites>  
     

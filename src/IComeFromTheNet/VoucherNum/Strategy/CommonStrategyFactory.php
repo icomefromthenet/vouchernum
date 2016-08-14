@@ -4,6 +4,7 @@ namespace IComeFromTheNet\VoucherNum\Strategy;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use IComeFromTheNet\VoucherNum\VoucherException;
+use IComeFromTheNet\VoucherNum\VoucherContainer;
 use IComeFromTheNet\VoucherNum\Strategy\StrategyFactoryInterface;
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverFactoryInterface;
 use IComeFromTheNet\VoucherNum\Event\VoucherEvents;
@@ -108,25 +109,25 @@ class CommonStrategyFactory implements StrategyFactoryInterface
      *  @return SequenceStrategyInterface
      *  @param string $name     SequenceStrategyInterface::getStrategyName()
      *  @param string $platform SequenceDriverInterface::getPlatform()
+     *  @param string $sTable   The sequence database table full name
     */
-    public function getInstance($name,$platform)
+    public function getInstance($name,$platform,$sTable)
     {
-        if(isset($this->strategyInstances[$name]) === true) {
+        if(false === isset($this->strategyInstances[$name])) {
             throw new VoucherException("Sequence strategy $name not registered with factory");
         }
         
-        if(!$class instanceof SequenceStrategyInterface ) {
+        $class = $this->strategyInstances[$name];
+        
+        
+        if(!$class instanceof SequenceStrategyInterface) {
             
             $class = $this->strategyInstances[$name];
-            $this->factoryInstances[$name] = new $class($this->getDriverFactory()->getInstance($platform),$this->getEventDispatcher());
+          
+            $this->factoryInstances[$name] = new $class($this->getDriverFactory()->getInstance($platform,$sTable),$this->getEventDispatcher());
             
-            $this->getEventDispatcher()->dispatch(VoucherEvents::SEQUNENCE_STRATEGY_INSTANCED,
-                                             new StrategyFactoryEvent($this,
-                                                                      $name,
-                                                                      $class,
-                                                                      $this->factoryInstances[$platform]
-                                                                    )
-                                            );
+           
+            $this->getEventDispatcher()->dispatch(VoucherEvents::SEQUNENCE_STRATEGY_INSTANCED, new StrategyFactoryEvent($this,$name,$class));
         }
         
         return $this->factoryInstances[$name];

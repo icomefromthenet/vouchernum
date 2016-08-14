@@ -58,6 +58,8 @@ class VoucherDriverFactoryTest extends VoucherTestAbstract
     
         $factory = new CommonDriverFactory($connection,$event);
         
+        $factory->registerDriver('mysql','IComeFromTheNet\VoucherNum\Driver\MYSQLDriver');
+        
         $this->assertInstanceOf('IComeFromTheNet\VoucherNum\Driver\MYSQLDriver',$factory->getInstance('mysql',self::SEQUENCE_TABLE_NAME));
     }
     

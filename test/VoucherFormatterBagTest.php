@@ -5,6 +5,7 @@ use IComeFromTheNet\VoucherNum\VoucherException;
 use IComeFromTheNet\VoucherNum\Formatter\FormatBagInterface;
 use IComeFromTheNet\VoucherNum\Formatter\FormatterBag;
 use IComeFromTheNet\VoucherNum\Formatter\FormatterInterface;
+use IComeFromTheNet\VoucherNum\Model\VoucherGenRule\VoucherGenRule;
 use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
 
 /**
@@ -25,7 +26,7 @@ class VoucherFormatterBagTest extends VoucherTestAbstract
     
     public function testAddFormatter()
     {
-        $bag = new FormatterBag();
+        $bag = new FormatterBag('IComeFromTheNet\\VoucherNum\\Formatter\\DefaultFormatter');
         $formatter = $this->createMock('IComeFromTheNet\VoucherNum\Formatter\FormatterInterface');
         
         $bag->addFormatter('test',$formatter);
@@ -38,7 +39,7 @@ class VoucherFormatterBagTest extends VoucherTestAbstract
     */
     public function testErrorAddSameRuleTwice()
     {
-        $bag = new FormatterBag();
+        $bag = new FormatterBag('IComeFromTheNet\\VoucherNum\\Formatter\\DefaultFormatter');
         $formatter = $this->createMock('IComeFromTheNet\VoucherNum\Formatter\FormatterInterface');
         
         $bag->addFormatter('test',$formatter);
@@ -49,7 +50,7 @@ class VoucherFormatterBagTest extends VoucherTestAbstract
     
     public function testRemoveRule()
     {
-        $bag = new FormatterBag();
+        $bag = new FormatterBag('IComeFromTheNet\\VoucherNum\\Formatter\\DefaultFormatter');
         $formatter = $this->createMock('IComeFromTheNet\VoucherNum\Formatter\FormatterInterface');
         
         $bag->addFormatter('test',$formatter);
@@ -61,12 +62,29 @@ class VoucherFormatterBagTest extends VoucherTestAbstract
     
     public function testIteratreOverBag()
     {
-        $bag = new FormatterBag();
+        $bag = new FormatterBag('IComeFromTheNet\\VoucherNum\\Formatter\\DefaultFormatter');
         $formatter = $this->createMock('IComeFromTheNet\VoucherNum\Formatter\FormatterInterface');
         
         $this->assertInstanceOf('IteratorAggregate',$bag);
         $this->assertInstanceOf('Iterator',$bag->getIterator());
     }
     
+    
+    public function testAddFormatterFromRule()
+    {
+        $oVoucherRule = new VoucherGenRule();
+        
+        $oVoucherRule->setVoucherGenRuleId(1);
+        $oVoucherRule->setVoucherRuleName('Rule One');
+        $oVoucherRule->setSlugRuleName('rule_one');
+        $oVoucherRule->getVoucherPaddingCharacter();
+        $oVoucherRule->getVoucherPrefix();
+        $oVoucherRule->getVoucherSuffix();
+        $oVoucherRule->getVoucherLength();
+        $oVoucherRule->getDateCreated();
+        $oVoucherRule->getSequenceStrategyName('S');
+        $oVoucherRule->setValidationRules(array('always-valid'));
+        
+    }
 }
 /* End of Class */

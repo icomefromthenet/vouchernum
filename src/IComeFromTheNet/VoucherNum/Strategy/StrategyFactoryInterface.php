@@ -55,8 +55,9 @@ interface StrategyFactoryInterface
      *  @return SequenceStrategyInterface
      *  @param string $name     SequenceStrategyInterface::getStrategyName()
      *  @param string $platform SequenceDriverInterface::getPlatform()
+     *  @param string $sTable   The sequence database table full name
     */
-    public function getInstance($name,$platform);
+    public function getInstance($name, $platform, $sTable);
     
 }
 /* End of Interface */
