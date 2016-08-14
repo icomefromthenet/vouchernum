@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         syntaxCheck="false"
+         bootstrap="vendor/autoload.php"
+>
+    
+     <php>
+        <var name="DEMO_DATABASE_DSN" value="mysql:dbname=vouchernum;host=localhost"/>
+        <var name="DEMO_DATABASE_USER" value="root"/>
+        <var name="DEMO_DATABASE_PASSWORD" value=""/>
+        <var name="DEMO_DATABASE_SCHEMA" value="vouchernum"/>
+        <var name="DEMO_DATABASE_PORT" value="3306"/>
+        <var name="DEMO_DATABASE_HOST" value="localhost"/>
+        <var name="DEMO_DATABASE_TYPE" value="pdo_mysql"/>
+        <server name="APP_ENVIRONMENT" value="travis" />
+    </php>
+    
+    <testsuites>
+        <testsuite name="default">
+              <file>test/VoucherEntityTest.php</file>
+              <file>test/VoucherBuilderTest.php</file>
+              <file>test/VoucherOperationsTest.php</file>
+              <file>test/VoucherStrategyFactoryTest.php</file>
+              <file>test/VoucherFormatterBagTest.php</file>
+              <file>test/VoucherRuleBagTest.php</file>
+              <file>test/VoucherDriverFactoryTest.php</file>
+              <file>test/VoucherDefaultFormatterTest.php</file>
+              <file>test/VoucherAutoIncrementStrategyTest.php</file>
+              <file>test/VoucherMYSQLDriverTest.php</file>
+              <file>test/VoucherGeneratorTest.php</file>
+        </testsuite>
+    </testsuites>  
+  
+    
+</phpunit>

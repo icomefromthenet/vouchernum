@@ -1,0 +1,12 @@
+language: php
+php:
+  - 5.6
+  - 5.5
+  
+   
+before_script:
+  - composer install 
+  - mysql -e 'CREATE DATABASE vouchernum;'
+  - mysql vouchernum < database/database.sql
+  
+script: vendor/bin/phpunit --configuration="travis.xml"

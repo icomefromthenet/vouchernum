@@ -366,7 +366,7 @@ class VoucherGenRule implements ValidationInterface
                 
             ]
             ,'in' => [
-               ['sequenceStrategy',['SEQUENCE']] 
+               ['sequenceStrategy',['sequence']] 
                 
             ]
             
