@@ -3,15 +3,13 @@
 Voucher Number
 --------------------
 
-While creating another library [General Ledger](https://github.com/icomefromthenet/GeneralLedger) I needed a feature that would generate
-a reference number for paperwork this reference number needed
+While creating another library [General Ledger](https://github.com/icomefromthenet/GeneralLedger) I found that I needed a feature that would generate a reference number for paperwork with this number needing
 
 1. Need to be unique.
 2. Need to have a custom prefix and or suffix.
 3. Need configured by end user. 
 
-My primary database is MySql which does not have support for named sequences this library need to both 
-a function to format a number into voucher reference  but also must provide a sequence emulator.  
+As my primary database is MySql I needed this library to both convert a number into voucher (add prefix,suffix and padding) but also must provide a sequence emulator.  
 
 Generating a voucher number entails.
 
