@@ -15,7 +15,7 @@
         "mrkrstphr/dbunit-fixture-arrays" : "@stable"
     },
     "require" : {
-        "icomefromthenet/dbal-gateway" : "dev-master",
+        "icomefromthenet/dbal-gateway" : "1.0.*",
         "pimple/pimple"                : "3.0.*",
         "psr/log"                      : "1.0.*",
         "vlucas/valitron"              : "^1.2",
