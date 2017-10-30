@@ -15,6 +15,7 @@
         "mrkrstphr/dbunit-fixture-arrays" : "@stable"
     },
     "require" : {
+        "ext-mbstring" : "*",
         "icomefromthenet/dbal-gateway" : "1.0.*",
         "pimple/pimple"                : "3.0.*",
         "psr/log"                      : "1.0.*",
