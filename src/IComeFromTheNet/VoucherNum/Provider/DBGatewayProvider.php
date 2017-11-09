@@ -59,8 +59,7 @@ class DBGatewayProvider implements ServiceProviderInterface
         $aTableMap          = array_merge($c['tablemap'],$aDefaultTableMap);
         
         
-        
-        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_GROUP, function() use ($c,$oSchema,$aTableMap) {
+        $c['table.voucher_group'] = function($c) use ($c,$oSchema,$aTableMap) {
             
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_GROUP];
             
@@ -74,6 +73,79 @@ class DBGatewayProvider implements ServiceProviderInterface
             
             $table->setPrimaryKey(array('voucher_group_id'));
             $table->addUniqueIndex(array('voucher_group_slug'),'gl_voucher_group_uiq1');
+            
+            return $table;
+        };
+        
+        $c['table.voucher_type'] = function($c) use ($c,$oSchema,$aTableMap){
+            $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_TYPE];
+            
+            
+            # Voucher Type Table
+            $table = $oSchema->createTable($sTableName);
+            $table->addColumn('voucher_type_id','integer',array("unsigned" => true,'autoincrement' => true));
+            $table->addColumn("voucher_enabled_from", "datetime",array());
+            $table->addColumn("voucher_enabled_to", "datetime",array());
+            $table->addColumn('voucher_name','string',array('length'=>100));
+            $table->addColumn('voucher_name_slug','string',array('length'=>100));
+            $table->addColumn('voucher_description','string',array('length'=>500));
+            $table->addColumn('voucher_group_id','integer',array('unsigned'=> true));
+            $table->addColumn('voucher_gen_rule_id','integer',array('unsigned'=> true));
+            
+            
+            $table->setPrimaryKey(array('voucher_type_id'));
+            $table->addForeignKeyConstraint($aTableMap[VoucherContainer::DB_TABLE_VOUCHER_GROUP] ,array('voucher_group_id'),array('voucher_group_id'),array(),'gl_voucher_type_fk1');
+            $table->addForeignKeyConstraint($aTableMap[VoucherContainer::DB_TABLE_VOUCHER_RULE],array('voucher_gen_rule_id'),array('voucher_gen_rule_id'),array(),'gl_voucher_type_fk2s');
+            $table->addUniqueIndex(array('voucher_name','voucher_enabled_from'),'gl_voucher_type_uiq1');
+            
+            return $table;
+        };
+        
+        $c['table.voucher_instance'] = function($c) use ($c,$oSchema,$aTableMap){
+             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_INSTANCE];
+            
+            # Vouchers Table (Instance Table)
+            $table = $oSchema->createTable($sTableName);
+            $table->addColumn('voucher_instance_id','integer',array("unsigned" => true,'autoincrement' => true));
+            $table->addColumn('voucher_type_id','integer',array("unsigned" => true));
+            $table->addColumn('voucher_code','string',array("length"=> 255));
+            $table->addColumn('date_created','datetime',array());
+            
+            $table->setPrimaryKey(array('voucher_instance_id'));
+            $table->addForeignKeyConstraint($aTableMap[VoucherContainer::DB_TABLE_VOUCHER_TYPE],array('voucher_type_id'),array('voucher_type_id'),array(),'gl_voucher_instance_fk1');
+            $table->addUniqueIndex(array('voucher_code'),'gl_voucher_instance_uiq1');
+            
+            return $table;
+        };
+        
+        $c['table.voucher_rule'] = function($c) use ($c,$oSchema,$aTableMap){
+          $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_RULE];
+            
+              # Voucher Rules
+            $table = $oSchema->createTable($sTableName);
+            $table->addColumn('voucher_rule_name','string',array('length'=> 25));
+            $table->addColumn('voucher_rule_slug','string',array("length" => 25));
+            $table->addColumn('voucher_gen_rule_id','integer',array('unsigned'=> true,'autoincrement' => true));
+            $table->addColumn('voucher_padding_char','string',array('legnth'=>'1'));
+            $table->addColumn('voucher_prefix','string',array('length'=> 50));
+            $table->addColumn('voucher_suffix','string',array('length'=>50));
+            $table->addColumn('voucher_length','smallint',array('unsigned'=> true,'length'=>3));
+            $table->addColumn('date_created','datetime',array());
+            $table->addColumn('voucher_sequence_no','integer',array('unsigned'=> true));
+            $table->addColumn('voucher_sequence_strategy','string',array('length'=> 20));
+            $table->addColumn('voucher_validate_rules','array',array());
+            
+            $table->setPrimaryKey(array('voucher_gen_rule_id'));
+            
+            return $table;
+        };
+        
+        
+        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_GROUP, function() use ($c,$oSchema,$aTableMap) {
+            
+            $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_GROUP];
+            
+            $table = $c['table.voucher_group'];
         
             $sAlias = 'a';
             
@@ -99,26 +171,9 @@ class DBGatewayProvider implements ServiceProviderInterface
         $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_TYPE , function() use ($c,$oSchema,$aTableMap) {
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_TYPE];
             
+            $table = $c['table.voucher_type'];
             
-            # Voucher Type Table
-            $table = $oSchema->createTable($sTableName);
-            $table->addColumn('voucher_type_id','integer',array("unsigned" => true,'autoincrement' => true));
-            $table->addColumn("voucher_enabled_from", "datetime",array());
-            $table->addColumn("voucher_enabled_to", "datetime",array());
-            $table->addColumn('voucher_name','string',array('length'=>100));
-            $table->addColumn('voucher_name_slug','string',array('length'=>100));
-            $table->addColumn('voucher_description','string',array('length'=>500));
-            $table->addColumn('voucher_group_id','integer',array('unsigned'=> true));
-            $table->addColumn('voucher_gen_rule_id','integer',array('unsigned'=> true));
-            
-            
-            $table->setPrimaryKey(array('voucher_type_id'));
-            $table->addForeignKeyConstraint($aTableMap[VoucherContainer::DB_TABLE_VOUCHER_GROUP] ,array('voucher_group_id'),array('voucher_group_id'),array(),'gl_voucher_type_fk1');
-            $table->addForeignKeyConstraint($aTableMap[VoucherContainer::DB_TABLE_VOUCHER_RULE],array('voucher_gen_rule_id'),array('voucher_gen_rule_id'),array(),'gl_voucher_type_fk2s');
-            $table->addUniqueIndex(array('voucher_name','voucher_enabled_from'),'gl_voucher_type_uiq1');
-
-            
-             $sAlias = 'd';
+            $sAlias = 'd';
             
             # connection
             $oConnection = $c->getDatabaseAdapter();
@@ -142,19 +197,8 @@ class DBGatewayProvider implements ServiceProviderInterface
         $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_INSTANCE,function() use ($c,$oSchema,$aTableMap) {
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_INSTANCE];
             
-            # Vouchers Table (Instance Table)
-            $table = $oSchema->createTable($sTableName);
-            $table->addColumn('voucher_instance_id','integer',array("unsigned" => true,'autoincrement' => true));
-            $table->addColumn('voucher_type_id','integer',array("unsigned" => true));
-            $table->addColumn('voucher_code','string',array("length"=> 255));
-            $table->addColumn('date_created','datetime',array());
-            
-            $table->setPrimaryKey(array('voucher_instance_id'));
-            $table->addForeignKeyConstraint($aTableMap[VoucherContainer::DB_TABLE_VOUCHER_TYPE],array('voucher_type_id'),array('voucher_type_id'),array(),'gl_voucher_instance_fk1');
-            $table->addUniqueIndex(array('voucher_code'),'gl_voucher_instance_uiq1');
+            $table = $c['table.voucher_instance'];
 
-            
-            
             $sAlias = 'c';
             
             # connection
@@ -181,20 +225,8 @@ class DBGatewayProvider implements ServiceProviderInterface
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_RULE];
             
               # Voucher Rules
-            $table = $oSchema->createTable($sTableName);
-            $table->addColumn('voucher_rule_name','string',array('length'=> 25));
-            $table->addColumn('voucher_rule_slug','string',array("length" => 25));
-            $table->addColumn('voucher_gen_rule_id','integer',array('unsigned'=> true,'autoincrement' => true));
-            $table->addColumn('voucher_padding_char','string',array('legnth'=>'1'));
-            $table->addColumn('voucher_prefix','string',array('length'=> 50));
-            $table->addColumn('voucher_suffix','string',array('length'=>50));
-            $table->addColumn('voucher_length','smallint',array('unsigned'=> true,'length'=>3));
-            $table->addColumn('date_created','datetime',array());
-            $table->addColumn('voucher_sequence_no','integer',array('unsigned'=> true));
-            $table->addColumn('voucher_sequence_strategy','string',array('length'=> 20));
-            $table->addColumn('voucher_validate_rules','array',array());
-            
-            $table->setPrimaryKey(array('voucher_gen_rule_id'));
+            $table = $c['table.voucher_rule'];
+           
             
             $sAlias = 'b';
             
