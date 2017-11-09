@@ -131,7 +131,7 @@ class DBGatewayProvider implements ServiceProviderInterface
             # event
             $oEvent  = $c->getEventDispatcher();
             
-            $oGateway = new VoucherTypeGateway(VoucherContainer::DB_TABLE_VOUCHER_TYPE,$oConnection,$oEvent,$table,null,$oBuilder);
+            $oGateway = new VoucherTypeGateway($sTableName,$oConnection,$oEvent,$table,null,$oBuilder);
             $oGateway->setTableQueryAlias($sAlias);
             $oGateway->setGatewayCollection($c->getGatewayFactory());
             
