@@ -65,6 +65,7 @@ class VoucherGenerator
         
         $this->oVoucherType = $oVoucherType;
         
+        $sSequenceTableName = $this->getSequenceTable();
         
        
        
@@ -97,7 +98,7 @@ class VoucherGenerator
         
         
         // Build the Sequence Strategy, this throw an exception is method not exist.
-        $oSequence = $this->getContainer()->getSequenceFactory()->getInstance($oVoucherRule->getSequenceStrategyName(),$sPlatform, VoucherContainer::DB_TABLE_VOUCHER_RULE);
+        $oSequence = $this->getContainer()->getSequenceFactory()->getInstance($oVoucherRule->getSequenceStrategyName(),$sPlatform, $sSequenceTableName);
         
         $this->oVoucherSequence = $oSequence;
         
@@ -109,6 +110,16 @@ class VoucherGenerator
         
     }
     
+    
+    
+    protected function getSequenceTable()
+    {  
+        
+        return  $this->getContainer()
+                   ->getGateway(VoucherContainer::DB_TABLE_VOUCHER_RULE)
+                   ->getMetaData()
+                   ->getName();
+    }
     
     /**
      * Voucher Service Constructor
