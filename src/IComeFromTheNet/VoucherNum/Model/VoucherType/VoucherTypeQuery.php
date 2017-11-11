@@ -34,8 +34,8 @@ class VoucherTypeQuery extends AbstractQuery implements QueryInterface
         $paramTypeTo   = $oGateway->getMetaData()->getColumn('voucher_enabled_to')->getType();
 
 
-        $this->andWhere($this->expr()->gte($sAlias.'voucher_enabled_from',$this->createNamedParameter($oFrom,$paramTypeFrom)))
-             ->andWhere($this->expr()->lte($sAlias.'voucher_enabled_to',$this->createNamedParameter($oFrom,$paramTypeTo)));
+       $this->andWhere($this->expr()->lte($sAlias.'voucher_enabled_from',$this->createNamedParameter($oFrom,$paramTypeFrom)))
+            ->andWhere($this->expr()->gte($sAlias.'voucher_enabled_to',$this->createNamedParameter($oFrom,$paramTypeTo)));
 
         return $this;
     }
