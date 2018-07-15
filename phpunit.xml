@@ -11,13 +11,13 @@
          bootstrap="vendor/autoload.php"
 >
     
-    <php>
-        <var name="DEMO_DATABASE_DSN" value="mysql:dbname=vouchernum;host=127.0.0.1;password=vouchernumpwis?"/>
-        <var name="DEMO_DATABASE_USER" value="vouchernum"/>
-        <var name="DEMO_DATABASE_PASSWORD" value="vouchernumpwis?"/>
-        <var name="DEMO_DATABASE_SCHEMA" value="vouchernum"/>
+   <php>
+        <var name="DEMO_DATABASE_DSN" value="mysql:dbname=c9;host=0.0.0.0;"/>
+        <var name="DEMO_DATABASE_USER" value="icomefromthenet"/>
+        <var name="DEMO_DATABASE_PASSWORD" value=""/>
+        <var name="DEMO_DATABASE_SCHEMA" value="c9"/>
         <var name="DEMO_DATABASE_PORT" value="3306"/>
-        <var name="DEMO_DATABASE_HOST" value="127.0.0.1"/>
+        <var name="DEMO_DATABASE_HOST" value="0.0.0.0"/>
         <var name="DEMO_DATABASE_TYPE" value="pdo_mysql"/>
     </php>
     

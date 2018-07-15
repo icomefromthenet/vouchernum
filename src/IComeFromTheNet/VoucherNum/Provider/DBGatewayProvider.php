@@ -51,15 +51,14 @@ class DBGatewayProvider implements ServiceProviderInterface
      public function register(Container $pimple)
      {
        
-        $c                  = $pimple;
         $oGatewayProxyColl  = $this->oGatewayProxyCollection;
         $aDefaultTableMap   = $this->aDefaultTableMap;
         $oSchema            = $this->oSchema;
          
-        $aTableMap          = array_merge($c['tablemap'],$aDefaultTableMap);
+        $aTableMap          = array_merge($pimple['tablemap'],$aDefaultTableMap);
         
         
-        $c['table.voucher_group'] = function($c) use ($c,$oSchema,$aTableMap) {
+        $pimple['table.voucher_group'] = function($c) use ($oSchema,$aTableMap) {
             
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_GROUP];
             
@@ -77,7 +76,7 @@ class DBGatewayProvider implements ServiceProviderInterface
             return $table;
         };
         
-        $c['table.voucher_type'] = function($c) use ($c,$oSchema,$aTableMap){
+        $pimple['table.voucher_type'] = function($c) use ($oSchema,$aTableMap){
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_TYPE];
             
             
@@ -101,7 +100,7 @@ class DBGatewayProvider implements ServiceProviderInterface
             return $table;
         };
         
-        $c['table.voucher_instance'] = function($c) use ($c,$oSchema,$aTableMap){
+        $pimple['table.voucher_instance'] = function($c) use ($oSchema,$aTableMap){
              $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_INSTANCE];
             
             # Vouchers Table (Instance Table)
@@ -118,7 +117,7 @@ class DBGatewayProvider implements ServiceProviderInterface
             return $table;
         };
         
-        $c['table.voucher_rule'] = function($c) use ($c,$oSchema,$aTableMap){
+        $pimple['table.voucher_rule'] = function($c) use ($oSchema,$aTableMap){
           $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_RULE];
             
               # Voucher Rules
@@ -141,16 +140,16 @@ class DBGatewayProvider implements ServiceProviderInterface
         };
         
         
-        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_GROUP, function() use ($c,$oSchema,$aTableMap) {
+        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_GROUP, function() use ($pimple,$oSchema,$aTableMap) {
             
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_GROUP];
             
-            $table = $c['table.voucher_group'];
+            $table = $pimple['table.voucher_group'];
         
             $sAlias = 'a';
             
             # connection
-            $oConnection = $c->getDatabaseAdapter();
+            $oConnection = $pimple->getDatabaseAdapter();
             
             # builder
             $oBuilder = new VoucherGroupBuilder();
@@ -158,25 +157,25 @@ class DBGatewayProvider implements ServiceProviderInterface
             
             
             # event
-            $oEvent  = $c->getEventDispatcher();
+            $oEvent  = $pimple->getEventDispatcher();
             
             $oGateway = new VoucherGroupGateway($sTableName,$oConnection,$oEvent,$table,null,$oBuilder);
             $oGateway->setTableQueryAlias($sAlias);
-            $oGateway->setGatewayCollection($c->getGatewayFactory());
+            $oGateway->setGatewayCollection($pimple->getGatewayFactory());
             
             return  $oGateway;
             
         });
         
-        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_TYPE , function() use ($c,$oSchema,$aTableMap) {
+        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_TYPE , function() use ($pimple,$oSchema,$aTableMap) {
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_TYPE];
             
-            $table = $c['table.voucher_type'];
+            $table = $pimple['table.voucher_type'];
             
             $sAlias = 'd';
             
             # connection
-            $oConnection = $c->getDatabaseAdapter();
+            $oConnection = $pimple->getDatabaseAdapter();
             
             # builder
             $oBuilder = new VoucherTypeBuilder();
@@ -184,25 +183,25 @@ class DBGatewayProvider implements ServiceProviderInterface
             
             
             # event
-            $oEvent  = $c->getEventDispatcher();
+            $oEvent  = $pimple->getEventDispatcher();
             
             $oGateway = new VoucherTypeGateway($sTableName,$oConnection,$oEvent,$table,null,$oBuilder);
             $oGateway->setTableQueryAlias($sAlias);
-            $oGateway->setGatewayCollection($c->getGatewayFactory());
+            $oGateway->setGatewayCollection($pimple->getGatewayFactory());
             
             return  $oGateway;
             
         });
         
-        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_INSTANCE,function() use ($c,$oSchema,$aTableMap) {
+        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_INSTANCE,function() use ($pimple,$oSchema,$aTableMap) {
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_INSTANCE];
             
-            $table = $c['table.voucher_instance'];
+            $table = $pimple['table.voucher_instance'];
 
             $sAlias = 'c';
             
             # connection
-            $oConnection = $c->getDatabaseAdapter();
+            $oConnection = $pimple->getDatabaseAdapter();
             
             
             # builder
@@ -211,27 +210,27 @@ class DBGatewayProvider implements ServiceProviderInterface
             
             
             # event
-            $oEvent  = $c->getEventDispatcher();
+            $oEvent  = $pimple->getEventDispatcher();
             
             $oGateway = new VoucherInstanceGateway($sTableName,$oConnection,$oEvent,$table,null,$oBuilder);
             $oGateway->setTableQueryAlias($sAlias);
-            $oGateway->setGatewayCollection($c->getGatewayFactory());
+            $oGateway->setGatewayCollection($pimple->getGatewayFactory());
             
             return  $oGateway;
             
         });
         
-        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_RULE ,function() use ($c,$oSchema,$aTableMap,$oGatewayProxyColl) {
+        $oGatewayProxyColl->addGateway(VoucherContainer::DB_TABLE_VOUCHER_RULE ,function() use ($pimple,$oSchema,$aTableMap,$oGatewayProxyColl) {
             $sTableName = $aTableMap[VoucherContainer::DB_TABLE_VOUCHER_RULE];
             
               # Voucher Rules
-            $table = $c['table.voucher_rule'];
+            $table = $pimple['table.voucher_rule'];
            
             
             $sAlias = 'b';
             
             # connection
-            $oConnection = $c->getDatabaseAdapter();
+            $oConnection = $pimple->getDatabaseAdapter();
             
             # builder
             $oBuilder = new VoucherGenRuleBuilder();
@@ -239,11 +238,11 @@ class DBGatewayProvider implements ServiceProviderInterface
             
             
             # event
-            $oEvent  = $c->getEventDispatcher();
+            $oEvent  = $pimple->getEventDispatcher();
             
             $oGateway = new VoucherGenRuleGateway($sTableName,$oConnection,$oEvent,$table,null,$oBuilder);
             $oGateway->setTableQueryAlias($sAlias);
-            $oGateway->setGatewayCollection($c->getGatewayFactory());
+            $oGateway->setGatewayCollection($pimple->getGatewayFactory());
             
             return  $oGateway;
             
