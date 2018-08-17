@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum\Test;
 
 use Doctrine\DBAL\Connection;
-use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+use IComeFromTheNet\VoucherNum\Test\Base\ArrayDataSet;
 
 use IComeFromTheNet\VoucherNum\VoucherException;
 use IComeFromTheNet\VoucherNum\VoucherContainer;

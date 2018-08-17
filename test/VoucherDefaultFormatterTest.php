@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum\Test;
 
 use Zend\Stdlib\StringWrapper\MbString;
-use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+use IComeFromTheNet\VoucherNum\Test\Base\ArrayDataSet;
 
 use IComeFromTheNet\VoucherNum\Test\Base\TestWithContainer;
 use IComeFromTheNet\VoucherNum\Formatter\FormatBagInterface;

@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum\Test;
 
 use Doctrine\DBAL\Connection;
-use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+use IComeFromTheNet\VoucherNum\Test\Base\ArrayDataSet;
 
 use IComeFromTheNet\VoucherNum\Driver\CommonDriverFactory;
 use IComeFromTheNet\VoucherNum\Driver\SequenceDriverInterface;
@@ -34,6 +34,8 @@ class VoucherDriverFactoryTest extends VoucherTestAbstract
     
         $factory = new CommonDriverFactory($connection,$event);
         $factory->registerDriver('psql','IComeFromTheNet\VoucherNum\Driver\MYSQLDriver');
+        
+        $this->assertTrue(true);
     }
     
     /**

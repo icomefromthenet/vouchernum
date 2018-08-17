@@ -6,6 +6,7 @@ use IComeFromTheNet\VoucherNum\Model\VoucherGroup\VoucherGroup;
 use IComeFromTheNet\VoucherNum\Model\VoucherGenRule\VoucherGenRule;
 use IComeFromTheNet\VoucherNum\Model\VoucherInstance\VoucherInstance;
 use IComeFromTheNet\VoucherNum\Model\VoucherType\VoucherType;
+use PHPUnit\Framework\TestCase;
 
 /**
   *  Test the Voucher Entity Object
@@ -13,7 +14,7 @@ use IComeFromTheNet\VoucherNum\Model\VoucherType\VoucherType;
   *  @author Lewis Dyer <getintouch@icomefromthenet.com>
   *  @since 1.0.0
   */
-class VoucherEntityTest extends \PHPUnit_Framework_TestCase
+class VoucherEntityTest extends TestCase
 {
     
     

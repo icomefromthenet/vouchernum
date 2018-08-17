@@ -2,7 +2,7 @@
 namespace IComeFromTheNet\VoucherNum\Test;
 
 use DateTime;
-use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+use IComeFromTheNet\VoucherNum\Test\Base\ArrayDataSet;
 use IComeFromTheNet\VoucherNum\VoucherException;
 
 

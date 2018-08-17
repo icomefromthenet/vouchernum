@@ -1,7 +1,7 @@
 <?php
 namespace IComeFromTheNet\VoucherNum\Test;
 
-use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+use IComeFromTheNet\VoucherNum\Test\Base\ArrayDataSet;
 
 use IComeFromTheNet\VoucherNum\Rule\AlwaysInvalidRule;
 use IComeFromTheNet\VoucherNum\Rule\AlwaysValidRule;

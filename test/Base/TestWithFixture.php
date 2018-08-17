@@ -1,13 +1,17 @@
 <?php
 namespace IComeFromTheNet\VoucherNum\Test\Base;
 
-use \PDO;
-use \PHPUnit_Extensions_Database_Operation_Composite;
-use \PHPUnit_Extensions_Database_TestCase;
+use PDO;
+use PHPUnit\DbUnit\Operation\Composite;
+use PHPUnit\Framework\TestCase;
+use PHPUnit\DbUnit\Operation\Factory;
+use PHPUnit\DbUnit\TestCaseTrait;
 use IComeFromTheNet\VoucherNum\Test\Base\DBOperationSetEnv;
 
-class TestWithFixture extends PHPUnit_Extensions_Database_TestCase
+class TestWithFixture extends TestCase
 {
+    
+    use TestCaseTrait;
     
    
     // ----------------------------------------------------------------------------
@@ -44,13 +48,13 @@ class TestWithFixture extends PHPUnit_Extensions_Database_TestCase
     }
 
     
-    protected function getSetUpOperation()
+   protected function getSetUpOperation()
     {
-        return new PHPUnit_Extensions_Database_Operation_Composite(array(
+        return new Composite([
             new DBOperationSetEnv('foreign_key_checks',0),
-            parent::getSetUpOperation(),
+            Factory::CLEAN_INSERT(),
             new DBOperationSetEnv('foreign_key_checks',1),
-        ));
+        ]);
     }
     
     

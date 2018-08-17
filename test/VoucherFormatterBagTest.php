@@ -6,7 +6,7 @@ use IComeFromTheNet\VoucherNum\Formatter\FormatBagInterface;
 use IComeFromTheNet\VoucherNum\Formatter\FormatterBag;
 use IComeFromTheNet\VoucherNum\Formatter\FormatterInterface;
 use IComeFromTheNet\VoucherNum\Model\VoucherGenRule\VoucherGenRule;
-use Mrkrstphr\DbUnit\DataSet\ArrayDataSet;
+use IComeFromTheNet\VoucherNum\Test\Base\ArrayDataSet;
 
 /**
   *  Test the Voucher Validation Rule Bag
@@ -30,6 +30,8 @@ class VoucherFormatterBagTest extends VoucherTestAbstract
         $formatter = $this->createMock('IComeFromTheNet\VoucherNum\Formatter\FormatterInterface');
         
         $bag->addFormatter('test',$formatter);
+        
+        $this->assertTrue(true);
     }
     
     /**
@@ -84,6 +86,8 @@ class VoucherFormatterBagTest extends VoucherTestAbstract
         $oVoucherRule->getDateCreated();
         $oVoucherRule->getSequenceStrategyName('S');
         $oVoucherRule->setValidationRules(array('always-valid'));
+        
+        $this->assertTrue(true);
         
     }
 }

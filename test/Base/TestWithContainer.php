@@ -7,6 +7,7 @@ use Monolog\Logger;
 use Monolog\Handler\TestHandler;
 use Doctrine\DBAL\Schema\Schema;
 
+
 abstract class TestWithContainer extends TestWithFixture
 {
     
