@@ -1,3 +1,5 @@
+use icomefromthenet;
+
 CREATE TABLE vo_voucher_group (voucher_group_id INT UNSIGNED AUTO_INCREMENT NOT NULL, voucher_group_name VARCHAR(100) NOT NULL, voucher_group_slug VARCHAR(100) NOT NULL, is_disabled TINYINT(1) DEFAULT '0' NOT NULL, sort_order INT UNSIGNED NOT NULL, date_created DATETIME NOT NULL, UNIQUE INDEX vo_voucher_group_uiq1 (voucher_group_slug), PRIMARY KEY(voucher_group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 
 CREATE TABLE vo_voucher_gen_rule (voucher_gen_rule_id INT UNSIGNED AUTO_INCREMENT NOT NULL, voucher_rule_name VARCHAR(25) NOT NULL, voucher_rule_slug VARCHAR(25) NOT NULL, voucher_padding_char VARCHAR(255) NOT NULL, voucher_prefix VARCHAR(50) NOT NULL, voucher_suffix VARCHAR(50) NOT NULL, voucher_length SMALLINT UNSIGNED NOT NULL, date_created DATETIME NOT NULL, voucher_sequence_no INT UNSIGNED NOT NULL, voucher_sequence_strategy VARCHAR(20) NOT NULL, voucher_validate_rules LONGTEXT NOT NULL COMMENT '(DC2Type:array)', PRIMARY KEY(voucher_gen_rule_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;

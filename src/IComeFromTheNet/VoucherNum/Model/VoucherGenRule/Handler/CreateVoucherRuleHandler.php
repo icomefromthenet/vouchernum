@@ -72,6 +72,9 @@ class CreateVoucherRuleHandler
                 
             }
             
+            // set a starting value for the sequence
+            $oQuery->addColumn('voucher_sequence_no',0);
+            
             $bSuccess = $oQuery->end()->insert(); 
     
             
