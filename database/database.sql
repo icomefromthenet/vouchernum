@@ -1,4 +1,3 @@
-use icomefromthenet;
 
 CREATE TABLE vo_voucher_group (voucher_group_id INT UNSIGNED AUTO_INCREMENT NOT NULL, voucher_group_name VARCHAR(100) NOT NULL, voucher_group_slug VARCHAR(100) NOT NULL, is_disabled TINYINT(1) DEFAULT '0' NOT NULL, sort_order INT UNSIGNED NOT NULL, date_created DATETIME NOT NULL, UNIQUE INDEX vo_voucher_group_uiq1 (voucher_group_slug), PRIMARY KEY(voucher_group_id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;
 

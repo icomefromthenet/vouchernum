@@ -11,10 +11,10 @@
 >
     
    <php>
-        <var name="DEMO_DATABASE_DSN" value="mysql:dbname=c9;host=0.0.0.0;"/>
-        <var name="DEMO_DATABASE_USER" value="icomefromthenet"/>
+        <var name="DEMO_DATABASE_DSN" value="mysql:dbname=<>;host=localhost;"/>
+        <var name="DEMO_DATABASE_USER" value="database_user"/>
         <var name="DEMO_DATABASE_PASSWORD" value=""/>
-        <var name="DEMO_DATABASE_SCHEMA" value="c9"/>
+        <var name="DEMO_DATABASE_SCHEMA" value="schema_name"/>
         <var name="DEMO_DATABASE_PORT" value="3306"/>
         <var name="DEMO_DATABASE_HOST" value="0.0.0.0"/>
         <var name="DEMO_DATABASE_TYPE" value="pdo_mysql"/>
